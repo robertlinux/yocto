@@ -261,7 +261,8 @@ def fork_off_task(cfg, data, databuilder, workerdata, fn, task, taskname, taskha
 
                 bb.utils.set_process_name("%s:%s" % (the_data.getVar("PN"), taskname.replace("do_", "")))
 
-                if not the_data.getVarFlag(taskname, 'network', False):
+                bb_task_network = bb.utils.to_boolean(the_data.getVar('BB_TASK_NETWORK'), False)
+                if not (bb_task_network or the_data.getVarFlag(taskname, 'network', False)):
                     logger.debug("Attempting to disable network")
                     bb.utils.disable_network(uid, gid)
 
