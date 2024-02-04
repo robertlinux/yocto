@@ -1,3 +1,8 @@
+From f07694e7df838aa5ab7b05565729e793d6b08635 Mon Sep 17 00:00:00 2001
+From: Ross Burton <ross.burton@arm.com>
+Date: Mon, 31 Jan 2022 17:40:13 +0000
+Subject: [PATCH] strace: skip a number of load-sensitive tests
+
 Skip tests which are known to be unreliable under load, typically because they
 care about timing.
 
@@ -44,6 +49,3 @@ index 8299737..d89c7df 100755
  
  r_opt="${1:--r}"
  
--- 
-2.25.1
-
