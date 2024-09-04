@@ -73,6 +73,12 @@ def is_layer_modified(path):
 
 def get_layer_revisions(d):
     layers = (d.getVar("BBLAYERS") or "").split()
+    # bitbake may in a separate git repo
+    bitbake_dir = bb.__file__.rsplit('/', 3)[0]
+    bitbake_git_dir = os.path.join(bitbake_dir, '.git')
+    if os.path.exists(bitbake_git_dir):
+        layers.insert(0, bitbake_dir)
+
     revisions = []
     for i in layers:
         revisions.append((i, os.path.basename(i), get_metadata_git_branch(i).strip(), get_metadata_git_revision(i), is_layer_modified(i)))
