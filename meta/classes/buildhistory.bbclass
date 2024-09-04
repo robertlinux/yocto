@@ -764,8 +764,9 @@ def buildhistory_get_build_id(d):
 
 def buildhistory_get_metadata_revs(d):
     # We want an easily machine-readable format here
-    revisions = oe.buildcfg.get_layer_revisions(d)
-    medadata_revs = ["%-17s = %s:%s%s" % (r[1], r[2], r[3], r[4]) for r in revisions]
+    revisions = oe.buildcfg.get_bitbake_revision()
+    revisions.extend(oe.buildcfg.get_layer_revisions(d))
+    medadata_revs = oe.buildcfg.get_branch_rev4(revisions)
     return '\n'.join(medadata_revs)
 
 def outputvars(vars, listvars, d):

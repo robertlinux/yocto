@@ -27,11 +27,14 @@ def image_buildinfo_outputvars(vars, d):
         ret += "%s = %s\n" % (var, value)
     return ret.rstrip('\n')
 
+def get_bitbake_rev(d):
+    revision = oe.buildcfg.get_bitbake_revision()
+    return '\n'.join(oe.buildcfg.get_branch_rev4(revision))
+
 # Returns layer revisions along with their respective status
 def get_layer_revs(d):
     revisions = oe.buildcfg.get_layer_revisions(d)
-    medadata_revs = ["%-17s = %s:%s%s" % (r[1], r[2], r[3], r[4]) for r in revisions]
-    return '\n'.join(medadata_revs)
+    return '\n'.join(oe.buildcfg.get_branch_rev4(revisions))
 
 def buildinfo_target(d):
         # Get context
@@ -53,6 +56,12 @@ Build Configuration:  |
 -----------------------
 ''',
             buildinfo_target(d),
+            '''
+-----------------------
+Bitbake Revision:      |
+-----------------------
+''',
+            get_bitbake_rev(d),
             '''
 -----------------------
 Layer Revisions:      |

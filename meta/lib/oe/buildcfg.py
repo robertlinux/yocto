@@ -71,6 +71,19 @@ def is_layer_modified(path):
         # output and a 129 return code when a layer isn't a git repo at all.
         return " -- modified"
 
+def get_branch_rev3(revisions):
+    # Return 3 items for each revision
+    return ["%-20s = \"%s:%s\"" % (r[1], r[2], r[3]) for r in revisions]
+
+def get_branch_rev4(revisions):
+    # Return 4 items for each revision
+    return ["%-17s = %s:%s%s" % (r[1], r[2], r[3], r[4]) for r in revisions]
+
+def get_bitbake_revision():
+    bbdir = bb.__file__.rsplit('/', 3)[0]
+    return [(bbdir, os.path.basename(bbdir), get_metadata_git_branch(bbdir).strip(), \
+            get_metadata_git_revision(bbdir), is_layer_modified(bbdir))]
+
 def get_layer_revisions(d):
     layers = (d.getVar("BBLAYERS") or "").split()
     revisions = []

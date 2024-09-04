@@ -226,9 +226,13 @@ do_unpack[postfuncs] += "create_source_date_epoch_stamp"
 def get_source_date_epoch_value(d):
     return oe.reproducible.epochfile_read(d.getVar('SDE_FILE'), d)
 
+def get_bitbake_branch_rev(d):
+    revisions = oe.buildcfg.get_bitbake_revision()
+    return oe.buildcfg.get_branch_rev3(revisions)
+
 def get_layers_branch_rev(d):
     revisions = oe.buildcfg.get_layer_revisions(d)
-    layers_branch_rev = ["%-20s = \"%s:%s\"" % (r[1], r[2], r[3]) for r in revisions]
+    layers_branch_rev = oe.buildcfg.get_branch_rev3(revisions)
     i = len(layers_branch_rev)-1
     p1 = layers_branch_rev[i].find("=")
     s1 = layers_branch_rev[i][p1:]
@@ -241,11 +245,11 @@ def get_layers_branch_rev(d):
         else:
             i -= 1
             p1 = layers_branch_rev[i].find("=")
-            s1= layers_branch_rev[i][p1:]
+            s1 = layers_branch_rev[i][p1:]
     return layers_branch_rev
 
 
-BUILDCFG_FUNCS ??= "buildcfg_vars get_layers_branch_rev buildcfg_neededvars"
+BUILDCFG_FUNCS ??= "buildcfg_vars get_bitbake_branch_rev get_layers_branch_rev buildcfg_neededvars"
 BUILDCFG_FUNCS[type] = "list"
 
 def buildcfg_vars(d):
