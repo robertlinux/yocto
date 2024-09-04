@@ -71,6 +71,13 @@ def is_layer_modified(path):
         # output and a 129 return code when a layer isn't a git repo at all.
         return " -- modified"
 
+def is_bitbake_in_separate_repo(bitbake_dir):
+    """
+    Check whether bitbake is in a separate git repo
+    """
+    bitbake_git_dir = os.path.join(bitbake_dir, '.git')
+    return os.path.exists(bitbake_git_dir)
+
 def get_branch_rev3(revisions):
     # Return 3 items for each revision
     return ["%-20s = \"%s:%s\"" % (r[1], r[2], r[3]) for r in revisions]
