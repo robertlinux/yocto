@@ -121,7 +121,6 @@ do_install:append() {
 }
 
 do_install:append:class-native () {
-	rm ${D}${datadir}/aclocal/*
 	rm ${D}${datadir}/gettext/config.rpath
 	rm ${D}${datadir}/gettext/po/Makefile.in.in
 	rm ${D}${datadir}/gettext/po/remove-potcdate.sed
@@ -152,7 +151,6 @@ do_install_ptest() {
         cp -rf ${S}/gettext-tools/gnulib-lib/gettext.h  ${D}${PTEST_PATH}/gnulib-lib
         cp -rf ${S}/gettext-tools/examples/hello-c      ${D}${PTEST_PATH}/examples
         cp -rf ${S}/gettext-tools/tests/*               ${D}${PTEST_PATH}/tests
-        cp -rf ${B}/gettext-tools/tests/.libs/*         ${D}${PTEST_PATH}/tests
         cp -rf ${B}/gettext-runtime/intl/.libs/libgnuintl.so.8*         ${D}${libdir}/
         cp -rf ${B}/gettext-tools/tests/Makefile        ${D}${PTEST_PATH}/tests
         cp -rf ${B}/gettext-tools/tests/init-env        ${D}${PTEST_PATH}/tests

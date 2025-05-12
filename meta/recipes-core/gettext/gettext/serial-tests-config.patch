@@ -8,6 +8,10 @@ Add serial-tests support, ptest need it
 Upstream-Status: Inappropriate [oe specific]
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
+
+Rebased to 0.24.1
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
  configure.ac                 | 2 +-
  gettext-runtime/configure.ac | 2 +-
@@ -15,39 +19,39 @@ Signed-off-by: Changqing Li <changqing.li@windriver.com>
  3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 5106676..3114998 100644
+index 672ff59..ec91d6b 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -22,7 +22,7 @@ AC_INIT([gettext],
- 	[bug-gettext@gnu.org])
- AC_CONFIG_SRCDIR([gettext-tools/src/msgfmt.c])
- AC_CONFIG_AUX_DIR([build-aux])
+@@ -23,7 +23,7 @@ AC_CONFIG_AUX_DIR([build-aux])
+ VERSION_NUMBER=`cd $srcdir \
+                 && build-aux/git-version-gen .tarball-version`
+ gl_INIT_PACKAGE_VERSION([$VERSION_NUMBER])
 -AM_INIT_AUTOMAKE([1.13 silent-rules parallel-tests tar-ustar])
 +AM_INIT_AUTOMAKE([1.13 silent-rules serial-tests tar-ustar])
  
- dnl Override automake's tar command used for creating distributions.
- am__tar='${AMTAR} chf - --format=ustar --owner=root --group=root "$$tardir"'
+ dnl Override automake's tar command used for creating distributions:
+ dnl - Sort the files by basename, not by dirname, to achieve higher compression
 diff --git a/gettext-runtime/configure.ac b/gettext-runtime/configure.ac
-index e128f5b..9f7447c 100644
+index aabfefc..b6abea3 100644
 --- a/gettext-runtime/configure.ac
 +++ b/gettext-runtime/configure.ac
-@@ -22,7 +22,7 @@ AC_INIT([gettext-runtime],
- 	[bug-gettext@gnu.org])
- AC_CONFIG_SRCDIR([intl/dcigettext.c])
- AC_CONFIG_AUX_DIR([../build-aux])
+@@ -23,7 +23,7 @@ AC_CONFIG_AUX_DIR([../build-aux])
+ VERSION_NUMBER=`cd $srcdir/.. \
+                 && build-aux/git-version-gen .tarball-version`
+ gl_INIT_PACKAGE_VERSION([$VERSION_NUMBER])
 -AM_INIT_AUTOMAKE([1.11.1 silent-rules parallel-tests])
 +AM_INIT_AUTOMAKE([1.11.1 silent-rules serial-tests])
  AC_CONFIG_HEADERS([config.h])
  
  dnl Installation directories.
 diff --git a/gettext-tools/configure.ac b/gettext-tools/configure.ac
-index 3b1f461..14510a9 100644
+index dcb11d4..2688faf 100644
 --- a/gettext-tools/configure.ac
 +++ b/gettext-tools/configure.ac
-@@ -22,7 +22,7 @@ AC_INIT([gettext-tools],
- 	[bug-gettext@gnu.org])
- AC_CONFIG_SRCDIR([src/msgfmt.c])
- AC_CONFIG_AUX_DIR([../build-aux])
+@@ -23,7 +23,7 @@ AC_CONFIG_AUX_DIR([../build-aux])
+ VERSION_NUMBER=`cd $srcdir/.. \
+                 && build-aux/git-version-gen .tarball-version`
+ gl_INIT_PACKAGE_VERSION([$VERSION_NUMBER])
 -AM_INIT_AUTOMAKE([1.11.1 silent-rules parallel-tests])
 +AM_INIT_AUTOMAKE([1.11.1 silent-rules serial-tests])
  AC_CONFIG_HEADERS([config.h])
