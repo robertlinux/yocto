@@ -188,8 +188,28 @@ autotools_do_configure() {
 		elif [ "${BPN}" != "gettext" ] && grep -q "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC; then
 			# We'd call gettextize here if it wasn't so broken...
 			cp ${STAGING_DATADIR_NATIVE}/gettext/config.rpath ${AUTOTOOLS_AUXDIR}/
+			# Find all possible po/Makefile.in.in, if it is the same as
+			# po/Makefile.in.in, then override it with
+			# ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in.
 			if [ -d ${S}/po/ ]; then
-				cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po/
+				makefile_in_in_top=${S}/po/Makefile.in.in
+				need_copy=$makefile_in_in_top
+				if [ -f $makefile_in_in_top ]; then
+					makefile_in_ins="$(find ${S} -name Makefile.in.in)"
+					for makefile_in_in in $makefile_in_ins; do
+						if [ $makefile_in_in != $makefile_in_in_top ]; then
+							diff="$(diff ${S}/po/Makefile.in.in $makefile_in_in || true)"
+							if [ -z "$diff" ]; then
+								need_copy="$need_copy $makefile_in_in"
+							fi
+						fi
+					done
+				fi
+				for makefile in $need_copy; do
+					cmd="cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in $makefile"
+					bbnote "Running $cmd"
+					$cmd
+				done
 				if [ ! -e ${S}/po/remove-potcdate.sed ]; then
 					cp ${STAGING_DATADIR_NATIVE}/gettext/po/remove-potcdate.sed ${S}/po/
 				fi
