@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
 SRC_URI = "${GNU_MIRROR}/libidn/${BPN}-${PV}.tar.gz"
 SRC_URI[sha256sum] = "f557911bf6171621e1f72ff35f5b1825bb35b52ed45325dcdee931e5d3c0787a"
 
-DEPENDS = "virtual/libiconv libunistring"
+DEPENDS = "virtual/libiconv libunistring help2man-native"
 
 inherit pkgconfig autotools gettext texinfo gtk-doc lib_package
 
