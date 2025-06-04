@@ -22,10 +22,9 @@ SRC_URI += "\
            file://0002-automake-Update-for-python.m4-to-respect-libdir.patch \
            file://0004-Add-a-new-distro-feature-ptest.patch \
            file://0006-automake-Remove-delays-in-configure-scripts-using-au.patch \
-           file://0001-configure-don-t-report-error-when-the-path-of-Perl-c.patch \
            "
 
-SRC_URI[sha256sum] = "397767d4db3018dd4440825b60c64258b636eaf6bf99ac8b0897f06c89310acd"
+SRC_URI[sha256sum] = "af6043a5d4b3beef0c48161f4a6936259321cd101a34c1ab0768328515626c8a"
 
 PERL = "${USRBINPATH}/perl"
 PERL:class-native = "${USRBINPATH}/env perl"
