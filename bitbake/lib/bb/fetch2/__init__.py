@@ -1168,7 +1168,11 @@ def try_mirrors(fetch, d, origud, mirrors, check = False):
     uris, uds = build_mirroruris(origud, mirrors, ld)
 
     for index, uri in enumerate(uris):
-        ret = try_mirror_url(fetch, origud, uds[index], ld, check)
+        ud = uds[index]
+        # Skip fetching it when the local url's path doesn't exist
+        if ud.parm.get('protocol', '') == 'file' and not os.path.exists(ud.path):
+            continue
+        ret = try_mirror_url(fetch, origud, ud, ld, check)
         if ret:
             return ret
     return None
