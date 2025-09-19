@@ -6,14 +6,14 @@ HOMEPAGE = "https://www.gnu.org/software/gawk/"
 BUGTRACKER  = "bug-gawk@gnu.org"
 SECTION = "console/utils"
 
-# gawk <= 3.1.5: GPL-2.0-only
-# gawk >= 3.1.6: GPL-3.0-only
+# The LICENSE will be "GPL-3.0-only & AGPL-3.0-or-later" when pma is enabled.
 LICENSE = "GPL-3.0-only"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 
 PACKAGECONFIG ??= "readline mpfr"
 PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
 PACKAGECONFIG[mpfr] = "--with-mpfr,--without-mpfr, mpfr"
+PACKAGECONFIG[pma] = ",--disable-pma"
 
 SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
            file://run-ptest \
@@ -33,6 +33,16 @@ FILES:${PN}-gawkbug += "${bindir}/gawkbug"
 ALTERNATIVE:${PN} = "awk"
 ALTERNATIVE_TARGET[awk] = "${bindir}/gawk"
 ALTERNATIVE_PRIORITY = "100"
+
+python() {
+    packageconfig = (d.getVar('PACKAGECONFIG') or '').split()
+    # The support/pma.c and support/pma.h's license is AGPL-3.0-or-later
+    if 'pma' in packageconfig:
+        bb.warn("Appending AGPL-3.0-or-later to LICENSE since pma is enabled")
+        d.appendVar('LICENSE', ' & AGPL-3.0-or-later')
+        d.appendVar('LIC_FILES_CHKSUM', ' file://support/pma.h;endline=21;md5=32bd750ee5aa5cbcf7978c1be6462b8a \
+                    file://support/pma.c;endline=28;md5=a3f33ec236ab96537cdfd1dcda270c75')
+}
 
 do_install:append() {
 	# remove the link since we don't package it
