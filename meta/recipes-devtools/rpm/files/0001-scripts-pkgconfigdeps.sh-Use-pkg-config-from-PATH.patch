@@ -1,0 +1,42 @@
+From d1739be5b733277d681fbfe4c3447ddfb6c2e45a Mon Sep 17 00:00:00 2001
+From: Robert Yang <liezhi.yang@windriver.com>
+Date: Sat, 28 Feb 2026 02:14:19 -0500
+Subject: [PATCH] scripts/pkgconfigdeps.sh: Use pkg-config from PATH
+
+pkgconfig: Used for running during rpmbuild
+pkgconfig_requires: Used as 'Requires:' in the spec file.
+
+This can reduce host contaminations, and make it friendly to cross compile.
+
+Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/4127]
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ scripts/pkgconfigdeps.sh | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/pkgconfigdeps.sh b/scripts/pkgconfigdeps.sh
+index ef4581856..c7fce4145 100755
+--- a/scripts/pkgconfigdeps.sh
++++ b/scripts/pkgconfigdeps.sh
+@@ -1,6 +1,7 @@
+ #!/bin/bash
+ 
+-pkgconfig=/usr/bin/pkg-config
++pkgconfig=$(which pkg-config)
++pkgconfig_requires=/usr/bin/pkg-config
+ test -x $pkgconfig || {
+     cat > /dev/null
+     exit 0
+@@ -44,7 +45,7 @@ case $1 in
+     case "${filename}" in
+     *.pc)
+ 	i="`expr $i + 1`"
+-	[ $i -eq 1 ] && echo "$pkgconfig"
++	[ $i -eq 1 ] && echo "$pkgconfig_requires"
+ 	DIR="`dirname ${filename}`"
+ 	export PKG_CONFIG_PATH="$DIR:$DIR/../../share/pkgconfig"
+ 	$pkgconfig --print-requires --print-requires-private "$filename" 2> /dev/null | while read n r v ; do
+-- 
+2.43.0
+
