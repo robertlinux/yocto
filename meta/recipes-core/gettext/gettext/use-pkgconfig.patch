@@ -18,16 +18,17 @@ Added also selinux discovery.
 Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
 
 ---
- gettext-tools/gnulib-m4/libxml.m4       | 105 ++---------------------
- libtextstyle/gnulib-local/m4/libglib.m4 | 106 +++---------------------
- libtextstyle/gnulib-m4/libglib.m4       | 106 +++---------------------
- 3 files changed, 31 insertions(+), 286 deletions(-)
+ gettext-tools/gnulib-m4/libxml.m4            |  105 ++++-----------------------------------------------------------------------------------
+ gettext-tools/gnulib-m4/selinux-selinux-h.m4 |   13 ----------
+ libtextstyle/gnulib-local/m4/libglib.m4      |  106 ++++++++++------------------------------------------------------------------------------
+ libtextstyle/gnulib-m4/libglib.m4            |  106 ++++++++++------------------------------------------------------------------------------
+ 4 files changed, 32 insertions(+), 298 deletions(-)
 
 diff --git a/gettext-tools/gnulib-m4/libxml.m4 b/gettext-tools/gnulib-m4/libxml.m4
-index c7160d7..8e46cc7 100644
+index 8c1dc78..4dd7f33 100644
 --- a/gettext-tools/gnulib-m4/libxml.m4
 +++ b/gettext-tools/gnulib-m4/libxml.m4
-@@ -14,6 +14,7 @@ dnl gl_LIBXML(FORCE-INCLUDED)
+@@ -15,6 +15,7 @@ dnl gl_LIBXML(FORCE-INCLUDED)
  dnl   forces the use of the included or an external libxml.
  AC_DEFUN([gl_LIBXML],
  [
@@ -35,7 +36,7 @@ index c7160d7..8e46cc7 100644
    AC_REQUIRE([AM_ICONV_LINK])
  
    ifelse([$1], , [
-@@ -31,106 +32,10 @@ AC_DEFUN([gl_LIBXML],
+@@ -32,106 +33,10 @@ AC_DEFUN([gl_LIBXML],
    INCXML=
    ifelse([$1], [yes], , [
      if test "$gl_cv_libxml_use_included" != yes; then
@@ -146,11 +147,40 @@ index c7160d7..8e46cc7 100644
      fi
    ])
    AC_SUBST([LIBXML])
+diff --git a/gettext-tools/gnulib-m4/selinux-selinux-h.m4 b/gettext-tools/gnulib-m4/selinux-selinux-h.m4
+index c964ced..1641bd5 100644
+--- a/gettext-tools/gnulib-m4/selinux-selinux-h.m4
++++ b/gettext-tools/gnulib-m4/selinux-selinux-h.m4
+@@ -71,6 +71,7 @@ AC_DEFUN([gl_LIBSELINUX],
+ [
+   AC_REQUIRE([AC_CANONICAL_HOST])
+   AC_REQUIRE([AC_CANONICAL_BUILD])
++  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+ 
+   AC_ARG_WITH([selinux],
+     AS_HELP_STRING([[--without-selinux]], [do not use SELinux, even on systems with SELinux]),
+@@ -87,16 +88,4 @@ AC_DEFUN([gl_LIBSELINUX],
+     LIBS=$gl_saved_LIBS
+   fi
+   AC_SUBST([LIB_SELINUX])
+-
+-  # Warn if SELinux is found but libselinux is absent;
+-  if test "$ac_cv_search_getfilecon_raw" = no; then
+-    if test "$host" = "$build" \
+-       && { test -d /sys/fs/selinux || test -d /selinux; }; then
+-      AC_MSG_WARN([This system supports SELinux but libselinux is missing.])
+-      AC_MSG_WARN([AC_PACKAGE_NAME will be compiled without SELinux support.])
+-    fi
+-    if test "$with_selinux" = maybe; then
+-      with_selinux=no
+-    fi
+-  fi
+ ])
 diff --git a/libtextstyle/gnulib-local/m4/libglib.m4 b/libtextstyle/gnulib-local/m4/libglib.m4
-index baa2cf4..b287c5b 100644
+index d9305cd..2501461 100644
 --- a/libtextstyle/gnulib-local/m4/libglib.m4
 +++ b/libtextstyle/gnulib-local/m4/libglib.m4
-@@ -7,106 +7,26 @@ dnl with or without modifications, as long as this notice is preserved.
+@@ -8,106 +8,26 @@ dnl This file is offered as-is, without any warranty.
  
  dnl From Bruno Haible.
  
@@ -271,10 +301,10 @@ index baa2cf4..b287c5b 100644
    AC_SUBST([LTLIBGLIB])
    AC_SUBST([INCGLIB])
 diff --git a/libtextstyle/gnulib-m4/libglib.m4 b/libtextstyle/gnulib-m4/libglib.m4
-index baa2cf4..b287c5b 100644
+index d9305cd..2501461 100644
 --- a/libtextstyle/gnulib-m4/libglib.m4
 +++ b/libtextstyle/gnulib-m4/libglib.m4
-@@ -7,106 +7,26 @@ dnl with or without modifications, as long as this notice is preserved.
+@@ -8,106 +8,26 @@ dnl This file is offered as-is, without any warranty.
  
  dnl From Bruno Haible.
  
@@ -394,37 +424,3 @@ index baa2cf4..b287c5b 100644
    AC_SUBST([LIBGLIB])
    AC_SUBST([LTLIBGLIB])
    AC_SUBST([INCGLIB])
-
-diff --git a/gettext-tools/gnulib-m4/selinux-selinux-h.m4 b/gettext-tools/gnulib-m4/selinux-selinux-h.m4
-index e2613fa..2a733a7 100644
---- a/gettext-tools/gnulib-m4/selinux-selinux-h.m4
-+++ b/gettext-tools/gnulib-m4/selinux-selinux-h.m4
-@@ -71,6 +71,7 @@ AC_DEFUN([gl_LIBSELINUX],
- [
-   AC_REQUIRE([AC_CANONICAL_HOST])
-   AC_REQUIRE([AC_CANONICAL_BUILD])
-+  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
- 
-   AC_ARG_WITH([selinux],
-     AS_HELP_STRING([[--without-selinux]], [do not use SELinux, even on systems with SELinux]),
-@@ -79,19 +80,8 @@ AC_DEFUN([gl_LIBSELINUX],
-   LIB_SELINUX=
-   if test "$with_selinux" != no; then
-     gl_saved_LIBS=$LIBS
--    AC_SEARCH_LIBS([setfilecon], [selinux],
--                   [test "$ac_cv_search_setfilecon" = "none required" ||
--                    LIB_SELINUX=$ac_cv_search_setfilecon])
-+    PKG_CHECK_MODULES([SELINUX], [libselinux], [LIB_SELINUX=$SELINUX_LIBS])
-     LIBS=$gl_saved_LIBS
-   fi
-   AC_SUBST([LIB_SELINUX])
--
--  # Warn if SELinux is found but libselinux is absent;
--  if test "$ac_cv_search_setfilecon" = no; then
--    if test "$host" = "$build" && test -d /selinux; then
--      AC_MSG_WARN([This system supports SELinux but libselinux is missing.])
--      AC_MSG_WARN([AC_PACKAGE_NAME will be compiled without SELinux support.])
--    fi
--    with_selinux=no
--  fi
- ])
