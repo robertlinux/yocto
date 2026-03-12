@@ -31,6 +31,9 @@ EXTRA_OECONF += "--enable-largefile --without-iconv"
 
 SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz \
            file://run-ptest \
+           file://0001-archive_read_append_filter-Keep-iterating-even-if-na.patch \
+           file://0002-__archive_read_register_bidder-Allow-ARCHIVE_STATE_H.patch \
+           file://0003-Convert-RPM-reader-into-a-proper-format-supporting-b.patch \
           "
 UPSTREAM_CHECK_URI = "https://www.libarchive.org/"
 
