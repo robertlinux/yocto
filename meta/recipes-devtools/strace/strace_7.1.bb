@@ -20,15 +20,11 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/strace-${PV}.tar.xz \
 SRC_URI:append:libc-musl = "\
            file://0001-Ignore-pwritev-pwrite64-tests-on-musl.patch \
            "
-SRC_URI[sha256sum] = "e076c851eec0972486ec842164fdc54547f9d17abd3d1449de8b120f5d299143"
+SRC_URI[sha256sum] = "81743ecf2a5b44186b2f5038afdc8beda7e5c70aed15b4fbfbcc6e9ece24490f"
 
 # To help "devtool finish" can add 0001-Ignore-pwritev-pwrite64-tests-on-musl.patch
 # into strace/strace rather than strace/files.
 FILESPATH .= ":${FILE_DIRNAME}/${BPN}"
-
-# remove at next version upgrade or when output changes
-PR = "r1"
-HASHEQUIV_HASH_VERSION .= ".1"
 
 inherit autotools github-releases ptest
 
